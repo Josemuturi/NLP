@@ -2,8 +2,8 @@
 
 **Course**: BIT4133 Natural Language Processing  
 **Project**: Smart Farm AI Assistant  
-**Student**: [Your Name]  
-**Reg No**: [Your Registration Number]
+**Student**: Joseph Muturi  
+**Reg No**: BSCCS/2024/34208
 
 ---
 
