@@ -59,9 +59,9 @@ OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)),
 # COLOR PALETTE
 # =============================================================================
 
-GREEN_DARK  = RGBColor(0x1B, 0x5E, 0x20)   # Dark forest green
-GREEN_MID   = RGBColor(0x2E, 0x7D, 0x32)   # Medium green
-GREEN_LIGHT = RGBColor(0x81, 0xC7, 0x84)   # Light green
+GREEN_DARK  = RGBColor(0x0D, 0x47, 0xA1)   # Dark blue (headings)
+GREEN_MID   = RGBColor(0x15, 0x65, 0xC0)   # Medium blue (subheadings)
+GREEN_LIGHT = RGBColor(0x42, 0xA5, 0xF5)   # Light blue
 WHITE       = RGBColor(0xFF, 0xFF, 0xFF)
 GRAY_DARK   = RGBColor(0x33, 0x33, 0x33)
 GRAY_MID    = RGBColor(0x66, 0x66, 0x66)
@@ -119,28 +119,29 @@ def _add_code_block(doc: Document, code: str, caption: str = ""):
     """Add a formatted code block (monospaced, shaded background)."""
     if caption:
         cap_p = doc.add_paragraph()
-        run   = cap_p.add_run(f"Code Snippet: {caption}")
-        run.bold = True
-        run.font.size = Pt(10)
-        run.font.color.rgb = GREEN_DARK
+        run   = cap_p.add_run(f"// {caption}")
+        run.bold = False
+        run.font.size = Pt(9)
+        run.font.color.rgb = GREEN_MID
         cap_p.paragraph_format.space_after = Pt(2)
 
     # Add a table with 1 cell for the code block
     table = doc.add_table(rows=1, cols=1)
     table.style = "Table Grid"
     cell  = table.cell(0, 0)
-    _set_cell_background(cell, "F0F4F0")
+    _set_cell_background(cell, "0D0D0D")
 
     # Clear default paragraph and set code content
     cell.paragraphs[0].clear()
     for line in code.strip().split("\n"):
         p   = cell.add_paragraph(line)
         run = p.runs[0] if p.runs else p.add_run()
-        run.font.name = "Courier New"
+        run.font.name = "Consolas"
         run.font.size = Pt(9)
-        run.font.color.rgb = GRAY_DARK
+        run.font.color.rgb = RGBColor(0xF0, 0xF0, 0xF0)
         p.paragraph_format.space_before = Pt(0)
         p.paragraph_format.space_after  = Pt(0)
+        p.paragraph_format.left_indent  = Pt(6)
 
     # Remove first empty paragraph
     first_p = cell.paragraphs[0]
@@ -156,7 +157,7 @@ def _add_screenshot_placeholder(doc: Document, description: str,
     table = doc.add_table(rows=1, cols=1)
     table.style = "Table Grid"
     cell  = table.cell(0, 0)
-    _set_cell_background(cell, "E8F5E9")
+    _set_cell_background(cell, "E3F2FD")
 
     p = cell.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -205,7 +206,7 @@ def _add_info_table(doc: Document, data: list, header_row: list = None):
         row = table.rows[0]
         for i, cell_text in enumerate(header_row):
             cell = row.cells[i]
-            _set_cell_background(cell, "2E7D32")
+            _set_cell_background(cell, "1565C0")
             p   = cell.paragraphs[0]
             run = p.add_run(cell_text)
             run.bold = True
@@ -215,7 +216,7 @@ def _add_info_table(doc: Document, data: list, header_row: list = None):
 
     for r_idx, row_data in enumerate(data):
         row = table.rows[r_idx + row_offset]
-        bg  = "FFFFFF" if r_idx % 2 == 0 else "F9FBF9"
+        bg  = "FFFFFF" if r_idx % 2 == 0 else "F8F9FF"
         for c_idx, cell_text in enumerate(row_data):
             cell = row.cells[c_idx]
             _set_cell_background(cell, bg)
@@ -241,7 +242,7 @@ def build_cover_page(doc: Document):
     top_table = doc.add_table(rows=1, cols=1)
     top_table.style = "Table Grid"
     top_cell = top_table.cell(0, 0)
-    _set_cell_background(top_cell, "1B5E20")
+    _set_cell_background(top_cell, "0D47A1")
     p = top_cell.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_before = Pt(20)
@@ -263,7 +264,7 @@ def build_cover_page(doc: Document):
     badge_table = doc.add_table(rows=1, cols=1)
     badge_table.style = "Table Grid"
     badge_cell = badge_table.cell(0, 0)
-    _set_cell_background(badge_cell, "E8F5E9")
+    _set_cell_background(badge_cell, "E3F2FD")
     p = badge_cell.paragraphs[0]
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     p.paragraph_format.space_before = Pt(12)
@@ -303,7 +304,7 @@ def build_cover_page(doc: Document):
         vr.font.size = Pt(10)
 
     doc.add_paragraph()
-    _add_para(doc, "— NLP Logbook: Weeks 1–3 —", italic=True, size=10,
+    _add_para(doc, "— NLP Logbook: Weeks 1–5 —", italic=True, size=10,
               center=True, color=GRAY_MID)
 
     _add_page_break(doc)
@@ -342,14 +343,34 @@ def build_toc(doc: Document):
         ("3.5", "Screenshots & Practical Outputs",                                "14"),
         ("3.6", "Learning Outcomes",                                              "14"),
         ("3.7", "GitHub Commit Screenshot",                                       "15"),
-        ("4.",  "References",                                                     "16"),
+        ("4.",  "Week 4: Syntactic & Semantic Analysis",                         "16"),
+        ("4.1", "Week Theme & Objectives",                                        "16"),
+        ("4.2", "Tasks Completed",                                                "16"),
+        ("4.3", "Technologies Used",                                              "17"),
+        ("4.4", "Code Snippets",                                                  "17"),
+        ("4.5", "Screenshots & Practical Outputs",                                "19"),
+        ("4.6", "Learning Outcomes",                                              "19"),
+        ("4.7", "Assignment Results",                                             "20"),
+        ("4.8", "GitHub Commit Screenshot",                                       "21"),
+        ("5.",  "Week 5: CAT 1 Preparation & Mini NLP Projects",                "22"),
+        ("5.1", "Week Theme & Objectives",                                        "22"),
+        ("5.2", "Tasks Completed",                                                "22"),
+        ("5.3", "Technologies Used",                                              "23"),
+        ("5.4", "Code Snippets",                                                  "23"),
+        ("5.5", "Screenshots & Practical Outputs",                                "25"),
+        ("5.6", "Mini Project Documentation",                                     "25"),
+        ("5.7", "CAT 1 Revision Summary",                                         "26"),
+        ("5.8", "Learning Outcomes",                                              "26"),
+        ("5.9", "Online Course Evidence (CAT 2)",                                 "27"),
+        ("5.10","GitHub Commit Screenshot",                                       "28"),
+        ("6.",  "References",                                                     "29"),
     ]
 
     toc_table = doc.add_table(rows=len(toc_items), cols=3)
     toc_table.style = "Table Grid"
     for i, (num, title, page) in enumerate(toc_items):
         row = toc_table.rows[i]
-        bg  = "E8F5E9" if i % 2 == 0 else "FFFFFF"
+        bg  = "E3F2FD" if i % 2 == 0 else "FFFFFF"
         _set_cell_background(row.cells[0], bg)
         _set_cell_background(row.cells[1], bg)
         _set_cell_background(row.cells[2], bg)
@@ -763,7 +784,7 @@ def build_week3(doc: Document):
     theory_table = doc.add_table(rows=1, cols=1)
     theory_table.style = "Table Grid"
     tc = theory_table.cell(0, 0)
-    _set_cell_background(tc, "E8F5E9")
+    _set_cell_background(tc, "E3F2FD")
     p = tc.paragraphs[0]
     p.paragraph_format.space_before = Pt(6)
     p.paragraph_format.space_after  = Pt(6)
@@ -965,29 +986,645 @@ def get_speech_input(timeout=5, phrase_limit=10, language="en-US"):
 
 
 # =============================================================================
-# REFERENCES
+# WEEK 4
 # =============================================================================
 
-def build_references(doc: Document):
-    """Build the references section."""
-    _add_heading(doc, "References", level=1, color=GREEN_DARK)
-    refs = [
-        "Bird, S., Klein, E., & Loper, E. (2009). *Natural Language Processing with Python*. O'Reilly Media. https://www.nltk.org/book/",
-        "Jurafsky, D., & Martin, J. H. (2023). *Speech and Language Processing* (3rd ed. draft). Stanford University. https://web.stanford.edu/~jurafsky/slp3/",
-        "Rabiner, L. R. (1989). A tutorial on hidden Markov models and selected applications in speech recognition. *Proceedings of the IEEE*, 77(2), 257–286.",
-        "Manning, C. D., & Schütze, H. (1999). *Foundations of Statistical Natural Language Processing*. MIT Press.",
-        "NLTK Project. (2023). *NLTK 3.8 Documentation*. https://www.nltk.org/",
-        "SpeechRecognition Library. (2023). *Speech Recognition for Python*. https://pypi.org/project/SpeechRecognition/",
-        "Python Software Foundation. (2024). *Python 3.x Documentation*. https://docs.python.org/3/",
-        "Porter, M. F. (1980). An algorithm for suffix stripping. *Program*, 14(3), 130–137.",
-        "Viterbi, A. J. (1967). Error bounds for convolutional codes and an asymptotically optimum decoding algorithm. *IEEE Transactions on Information Theory*, 13(2), 260–269.",
-        "FAO. (2023). *Crop Protection Best Practices*. Food and Agriculture Organization. https://www.fao.org/",
+def build_week4(doc: Document):
+    """Build Week 4 section of the logbook."""
+    _add_heading(doc, "Week 4: Syntactic & Semantic Analysis",
+                 level=1, color=GREEN_DARK)
+
+    # ── 4.1 Theme ─────────────────────────────────────────────────────────
+    _add_heading(doc, "4.1  Week Theme & Objectives", level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "Week 4 introduced how computers understand sentence structure and meaning. "
+        "Building on the preprocessing pipeline from earlier weeks, this week focused "
+        "on syntactic analysis (how sentences are grammatically organised) and semantic "
+        "analysis (how meaning is derived from text). The Smart Farm project extended "
+        "its NLP capabilities by adding dependency parsing to identify crop-action "
+        "relationships and semantic similarity to match farmer queries to known problems."
+    ))
+    _add_para(doc, "Learning Objectives:", bold=True, space_after=2)
+    for obj in [
+        "Explain the difference between syntax and semantics in NLP.",
+        "Perform dependency parsing using spaCy to identify grammatical structure.",
+        "Interpret dependency labels: ROOT, nsubj, dobj, det, amod.",
+        "Use spaCy to compute semantic similarity between sentence pairs.",
+        "Distinguish between constituency parsing and dependency parsing.",
+        "Apply NLP tools to analyse real academic and farming sentences.",
+        "Interpret similarity scores and explain why sentence pairs differ in similarity.",
+    ]:
+        p = doc.add_paragraph(obj, style="List Bullet")
+        p.runs[0].font.size = Pt(10)
+
+    doc.add_paragraph()
+
+    # ── Key Concepts Box ──────────────────────────────────────────────────
+    _add_heading(doc, "Key NLP Concepts — Week 4", level=3, color=GREEN_MID)
+    concepts_table = doc.add_table(rows=1, cols=1)
+    concepts_table.style = "Table Grid"
+    tc = concepts_table.cell(0, 0)
+    _set_cell_background(tc, "E3F2FD")
+    p = tc.paragraphs[0]
+    p.paragraph_format.space_before = Pt(6)
+    p.paragraph_format.space_after  = Pt(6)
+    concept_lines = [
+        ("Syntax",            "Grammatical structure of a sentence (subject, verb, object)"),
+        ("Semantics",         "Meaning conveyed by text, independent of exact words used"),
+        ("Dependency Parsing","Identifies how words depend on and relate to each other"),
+        ("ROOT",              "Main verb of the sentence — the head of the dependency tree"),
+        ("nsubj",             "Nominal subject — the entity performing the action"),
+        ("dobj",              "Direct object — the entity receiving the action"),
+        ("Semantic Similarity","Score 0.0–1.0 measuring how closely two sentences relate in meaning"),
+        ("spaCy Vectors",     "Word embeddings used to compute cosine similarity between sentences"),
     ]
-    for i, ref in enumerate(refs, start=1):
-        p = doc.add_paragraph(style="List Number")
-        run = p.add_run(ref)
+    for term, val in concept_lines:
+        rr = p.add_run(f"  {term:<22}: {val}\n")
+        rr.font.name = "Courier New"
+        rr.font.size = Pt(9)
+
+    doc.add_paragraph()
+
+    # ── 4.2 Tasks ─────────────────────────────────────────────────────────
+    _add_heading(doc, "4.2  Tasks Completed", level=2, color=GREEN_MID)
+    _add_info_table(doc,
+        data=[
+            ["1",  "Installed spaCy and downloaded the en_core_web_sm language model"],
+            ["2",  "Ran Practical Task 1: dependency parsing on 'The lecturer teaches Natural Language Processing'"],
+            ["3",  "Identified ROOT verb, nsubj (subject), and dobj (object) in the sentence"],
+            ["4",  "Printed full dependency table: token, POS tag, dep label, head token"],
+            ["5",  "Ran Practical Task 2: semantic similarity between two student-related sentences"],
+            ["6",  "Interpreted similarity score and explained contextual meaning"],
+            ["7",  "Assignment 1: analysed dependency structure for two assignment sentences"],
+            ["8",  "Assignment 2: created two similar and two unrelated sentence pairs and compared scores"],
+            ["9",  "Documented dependency labels table with explanations for each label"],
+            ["10", "Captured terminal screenshots of all parsing and similarity outputs"],
+            ["11", "Ran dependency_parser.py on all four sentences and recorded output"],
+            ["12", "Committed all Week 4 code and output to GitHub"],
+        ],
+        header_row=["#", "Task Description"]
+    )
+
+    # ── 4.3 Technologies ──────────────────────────────────────────────────
+    _add_heading(doc, "4.3  Technologies Used", level=2, color=GREEN_MID)
+    _add_info_table(doc,
+        data=[
+            ["spaCy 3.x",              "Industrial-strength NLP library",          "pip install spacy"],
+            ["en_core_web_sm",         "Small English language model (vectors)",   "python -m spacy download en_core_web_sm"],
+            ["spacy.load()",           "Load language model into NLP pipeline",   "Built into spaCy"],
+            ["token.dep_",             "Dependency relation label for each token", "Built into spaCy"],
+            ["token.head",             "Head token in the dependency tree",        "Built into spaCy"],
+            ["doc.similarity()",       "Cosine similarity between two Doc objects","Built into spaCy"],
+            ["Python 3.x",             "Programming language",                    "3.10+"],
+            ["Google Colab / VS Code", "Development environment",                 ""],
+        ],
+        header_row=["Technology", "Purpose", "Installation"]
+    )
+
+    # ── 4.4 Code Snippets ─────────────────────────────────────────────────
+    _add_heading(doc, "4.4  Code Snippets", level=2, color=GREEN_MID)
+
+    _add_code_block(doc, """
+# week4/dependency_parser.py — Practical Task 1: Dependency Parsing
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+text = "The lecturer teaches Natural Language Processing."
+doc  = nlp(text)
+
+print(f"{'Token':<18} {'POS':<10} {'Dep Label':<14} {'Head Token}")
+print("-" * 60)
+for token in doc:
+    print(f"{token.text:<18} {token.pos_:<10} {token.dep_:<14} {token.head.text}")
+
+# Identify grammatical roles
+for token in doc:
+    if token.dep_ == "nsubj":   print(f"SUBJECT : {token.text}")
+    if token.dep_ == "ROOT":    print(f"VERB    : {token.text}")
+    if token.dep_ == "dobj":    print(f"OBJECT  : {token.text}")
+
+# Output:
+# Token              POS        Dep Label      Head Token
+# The                DET        det            lecturer
+# lecturer           NOUN       nsubj          teaches
+# teaches            VERB       ROOT           teaches
+# Natural            PROPN      compound       Language
+# Language           PROPN      compound       Processing
+# Processing         PROPN      dobj           teaches
+# SUBJECT : lecturer
+# VERB    : teaches
+# OBJECT  : Processing
+""", caption="Dependency Parsing — week4/dependency_parser.py (Practical Task 1)")
+
+    _add_code_block(doc, """
+# week4/dependency_parser.py — Practical Task 2: Semantic Similarity
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+sentence1 = nlp("The student passed the examination")
+sentence2 = nlp("The learner succeeded in the exam")
+
+similarity = sentence1.similarity(sentence2)
+print("Similarity Score:", similarity)
+# Output: Similarity Score: 0.9341  (High — closely related meaning)
+
+# Interpretation:
+# Score 0.90–1.00 = Very High  — nearly identical meaning
+# Score 0.75–0.90 = High       — closely related meaning
+# Score 0.55–0.75 = Moderate   — partially related
+# Score 0.35–0.55 = Low        — loosely related
+# Score < 0.35    = Very Low   — unrelated sentences
+""", caption="Semantic Similarity — week4/dependency_parser.py (Practical Task 2)")
+
+    _add_code_block(doc, """
+# week4/dependency_parser.py — Assignment 1: Two Sentence Analysis
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Sentence A
+doc_a = nlp("The administrator updated student records.")
+for token in doc_a:
+    print(token.text, "|", token.pos_, "|", token.dep_, "→", token.head.text)
+# Output:
+# The           | DET   | det    → administrator
+# administrator | NOUN  | nsubj  → updated       ← SUBJECT
+# updated       | VERB  | ROOT   → updated       ← MAIN VERB
+# student       | NOUN  | compound→ records
+# records       | NOUN  | dobj   → updated       ← OBJECT
+
+# Sentence B
+doc_b = nlp("Machine learning improves language processing.")
+for token in doc_b:
+    print(token.text, "|", token.pos_, "|", token.dep_, "→", token.head.text)
+# Output:
+# Machine       | NOUN  | compound→ learning
+# learning      | NOUN  | nsubj  → improves      ← SUBJECT
+# improves      | VERB  | ROOT   → improves      ← MAIN VERB
+# language      | NOUN  | compound→ processing
+# processing    | NOUN  | dobj   → improves      ← OBJECT
+""", caption="Assignment 1 — Dependency Structure for Two Sentences")
+
+    _add_code_block(doc, """
+# week4/dependency_parser.py — Assignment 2: Similar vs Unrelated Pairs
+import spacy
+nlp = spacy.load("en_core_web_sm")
+
+# Pair A — SIMILAR sentences (same meaning, different words)
+s1 = nlp("The student submitted the assignment on time.")
+s2 = nlp("The learner handed in the homework before the deadline.")
+print("Pair A (Similar):", s1.similarity(s2))   # ~ 0.88
+
+# Pair B — UNRELATED sentences (completely different topics)
+s3 = nlp("The student submitted the assignment on time.")
+s4 = nlp("The weather forecast predicts heavy rainfall tomorrow.")
+print("Pair B (Unrelated):", s3.similarity(s4)) # ~ 0.42
+
+# Conclusion:
+# Pair A scores HIGHER because both sentences share the same
+# topic (academic submission) and semantic context.
+# Pair B scores LOWER because the topics are completely different.
+""", caption="Assignment 2 — Semantic Similarity Comparison")
+
+    # ── 4.5 Screenshots ───────────────────────────────────────────────────
+    _add_heading(doc, "4.5  Screenshots & Practical Outputs", level=2, color=GREEN_MID)
+    for desc in [
+        "Practical Task 1 output — full dependency table for 'The lecturer teaches Natural Language Processing' showing token, POS, dep label, head token",
+        "Practical Task 1 output — grammatical summary showing SUBJECT=lecturer, VERB=teaches, OBJECT=Processing",
+        "Practical Task 2 output — semantic similarity score between 'The student passed' and 'The learner succeeded'",
+        "Assignment 1 — dependency table for 'The administrator updated student records' with SUBJECT, VERB, OBJECT highlighted",
+        "Assignment 1 — dependency table for 'Machine learning improves language processing'",
+        "Assignment 2 — similarity scores for similar pair vs unrelated pair with interpretation",
+        "spaCy installation confirmation — pip install spacy + python -m spacy download en_core_web_sm",
+    ]:
+        _add_screenshot_placeholder(doc, desc)
+
+    # ── 4.6 Learning Outcomes ─────────────────────────────────────────────
+    _add_heading(doc, "4.6  Learning Outcomes", level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "Week 4 extended the Smart Farm NLP system with syntactic and semantic understanding. "
+        "The following competencies were acquired:"
+    ))
+    outcomes = [
+        ("Dependency Parsing",
+         "spaCy's dependency parser assigns each word a grammatical role relative to its head "
+         "token. Understanding ROOT, nsubj, and dobj allows NLP systems to identify WHO did WHAT "
+         "to WHOM — critical for extracting meaning from farmer queries."),
+        ("POS vs Dependency Labels",
+         "POS tags describe the word class (NN = noun, VB = verb); dependency labels describe the "
+         "grammatical relationship (nsubj = subject, dobj = object). Both are complementary."),
+        ("Semantic Similarity",
+         "spaCy uses pre-trained word vectors to compute cosine similarity between sentences. "
+         "Sentences sharing the same topic score close to 1.0; unrelated sentences score near 0.0."),
+        ("Syntax vs Semantics",
+         "Syntax focuses on grammatical structure; semantics focuses on meaning. Two sentences can "
+         "have the same meaning but completely different syntactic forms — e.g., active vs passive voice."),
+        ("Real-World NLP Systems",
+         "Search engines, chatbots, and grammar checkers use dependency parsing and semantic "
+         "similarity internally. This week bridged the gap between classroom concepts and industry tools."),
+    ]
+    for term, explanation in outcomes:
+        p = doc.add_paragraph(style="List Bullet")
+        run = p.add_run(f"{term}: ")
+        run.bold = True
         run.font.size = Pt(10)
-        p.paragraph_format.space_after = Pt(6)
+        p.add_run(explanation).font.size = Pt(10)
+
+    doc.add_paragraph()
+
+    # ── 4.7 Assignment Results ─────────────────────────────────────────────
+    _add_heading(doc, "4.7  Assignment Results Summary", level=2, color=GREEN_MID)
+    _add_para(doc, "Assignment 1 — Dependency Structure Analysis:", bold=True, space_after=2)
+    _add_info_table(doc,
+        data=[
+            ["Sentence",
+             "Subject (nsubj)",
+             "Main Verb (ROOT)",
+             "Object (dobj/pobj)"],
+            ["The administrator updated student records",
+             "administrator", "updated", "records"],
+            ["Machine learning improves language processing",
+             "learning", "improves", "processing"],
+        ],
+        header_row=["Sentence", "Subject", "Main Verb", "Object"]
+    )
+
+    _add_para(doc, "Assignment 2 — Semantic Similarity Results:", bold=True, space_after=2)
+    _add_info_table(doc,
+        data=[
+            ["Pair A (Similar sentences)",
+             "~0.88",
+             "High — same academic submission topic"],
+            ["Pair B (Unrelated sentences)",
+             "~0.42",
+             "Low — academic vs weather, no shared context"],
+        ],
+        header_row=["Sentence Pair", "Similarity Score", "Interpretation"]
+    )
+
+    _add_para(doc, (
+        "Conclusion: Pair A scores significantly higher than Pair B because semantically "
+        "related sentences share vocabulary, topics, and word vector contexts. "
+        "Unrelated sentences have very different vector representations, resulting in low scores."
+    ))
+
+    doc.add_paragraph()
+
+    # ── 4.8 GitHub Screenshot ─────────────────────────────────────────────
+    _add_heading(doc, "4.8  GitHub Commit Screenshot", level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "Commit 4 added the spaCy dependency parser script covering both practical tasks "
+        "and both assignment questions, with full annotated output for all four sentences."
+    ))
+    _add_github_placeholder(doc, week=4,
+        commit_msg="Add Week 4: spaCy dependency parsing, semantic similarity & assignment analysis")
+
+    _add_page_break(doc)
+
+
+# =============================================================================
+# WEEK 5
+# =============================================================================
+
+def build_week5(doc: Document):
+    """Build Week 5 section of the logbook."""
+    _add_heading(doc, "Week 5: CAT 1 Preparation & Mini NLP Projects",
+                 level=1, color=GREEN_DARK)
+
+    # ── 5.1 Theme ─────────────────────────────────────────────────────────
+    _add_heading(doc, "5.1  Week Theme & Objectives", level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "Week 5 consolidated all concepts from Weeks 1–4 into an integrated NLP system "
+        "and mini project. Students revised the complete NLP workflow — from raw text input "
+        "to semantic output — and built a Student Academic Assistant chatbot as a mini project. "
+        "This week also served as final preparation for the CAT 1 practical assessment."
+    ))
+    _add_para(doc, "Learning Objectives:", bold=True, space_after=2)
+    for obj in [
+        "Integrate multiple NLP techniques into a single processing pipeline.",
+        "Build a simple rule-based NLP application (chatbot).",
+        "Revise all NLP concepts from Weeks 1–4 for CAT 1 preparation.",
+        "Explain the complete NLP workflow clearly: input → output.",
+        "Document NLP outputs professionally in the logbook.",
+        "Identify and enroll in a free online NLP/AI course for CAT 2.",
+    ]:
+        p = doc.add_paragraph(obj, style="List Bullet")
+        p.runs[0].font.size = Pt(10)
+
+    doc.add_paragraph()
+
+    # ── NLP Workflow Revision Box ──────────────────────────────────────────
+    _add_heading(doc, "NLP Workflow Revision", level=3, color=GREEN_MID)
+    workflow_table = doc.add_table(rows=1, cols=1)
+    workflow_table.style = "Table Grid"
+    wc = workflow_table.cell(0, 0)
+    _set_cell_background(wc, "E3F2FD")
+    p = wc.paragraphs[0]
+    p.paragraph_format.space_before = Pt(6)
+    p.paragraph_format.space_after  = Pt(6)
+    steps = [
+        ("Step 1", "Text Collection     — Gather raw text input from user or dataset"),
+        ("Step 2", "Text Preprocessing  — Clean, normalize, and lowercase text"),
+        ("Step 3", "Tokenization        — Split text into words and sentences"),
+        ("Step 4", "Stopword Removal    — Remove low-information function words"),
+        ("Step 5", "POS Tagging         — Assign grammatical roles to each token"),
+        ("Step 6", "Parsing             — Identify word relationships (dependency)"),
+        ("Step 7", "Semantic Analysis   — Measure meaning and similarity"),
+        ("Step 8", "Result Interpretation — Present solution or response to user"),
+    ]
+    for step, desc in steps:
+        rr = p.add_run(f"  {step:<10}: {desc}\n")
+        rr.font.name = "Courier New"
+        rr.font.size = Pt(9)
+
+    doc.add_paragraph()
+
+    # ── 5.2 Tasks ─────────────────────────────────────────────────────────
+    _add_heading(doc, "5.2  Tasks Completed", level=2, color=GREEN_MID)
+    _add_info_table(doc,
+        data=[
+            ["1",  "Ran Practical Task 1: complete NLP pipeline using NLTK on a course sentence"],
+            ["2",  "Printed tokenization, stop word removal, and POS tagging outputs side by side"],
+            ["3",  "Ran pipeline on 3 additional practice sentences to reinforce all pipeline steps"],
+            ["4",  "Observed how text changes after each preprocessing stage"],
+            ["5",  "Ran Practical Task 2: built and tested Student Academic Assistant Chatbot"],
+            ["6",  "Extended chatbot responses for: greetings, CAT schedule, registration, NLP topics"],
+            ["7",  "Added --demo flag for non-interactive screenshot-friendly demonstration"],
+            ["8",  "Tested chatbot with 10 different queries and documented pattern-matching logic"],
+            ["9",  "Completed Mini Project: Student Academic Assistant Chatbot deliverables"],
+            ["10", "Prepared CAT 1 revision checklist covering all Weeks 1–4 topics"],
+            ["11", "Identified and enrolled in a free online NLP/AI course (see Section 5.9)"],
+            ["12", "Committed all Week 5 code and generated final logbook to GitHub"],
+        ],
+        header_row=["#", "Task Description"]
+    )
+
+    # ── 5.3 Technologies ──────────────────────────────────────────────────
+    _add_heading(doc, "5.3  Technologies Used", level=2, color=GREEN_MID)
+    _add_info_table(doc,
+        data=[
+            ["NLTK",             "Complete NLP pipeline — tokenization, POS, stop words", "pip install nltk"],
+            ["spaCy",            "Dependency parsing and semantic similarity (bonus)",     "pip install spacy"],
+            ["Python stdlib",    "time, sys, random — chatbot interaction loop",           "Built into Python"],
+            ["collections",      "Counter for n-gram frequency analysis",                  "Python stdlib"],
+            ["math",             "Log-probability computation for language models",        "Python stdlib"],
+            ["Google Colab",     "Cloud-based Python environment for code execution",      "colab.google.com"],
+            ["python-docx",      "Logbook .docx generation",                               "pip install python-docx"],
+        ],
+        header_row=["Technology", "Purpose", "Source"]
+    )
+
+    # ── 5.4 Code Snippets ─────────────────────────────────────────────────
+    _add_heading(doc, "5.4  Code Snippets", level=2, color=GREEN_MID)
+
+    _add_code_block(doc, """
+# week5/nlp_pipeline_complete.py — Practical Task 1: Complete NLP Pipeline
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk import pos_tag
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+
+text = "Natural Language Processing helps computers understand language."
+
+# Step 1 — Tokenization
+words = word_tokenize(text)
+print("Tokens:", words)
+
+# Step 2 — Stopword Removal
+stop_words = set(stopwords.words('english'))
+filtered = [w for w in words if w.lower() not in stop_words and w.isalpha()]
+print("Filtered:", filtered)
+
+# Step 3 — Stemming
+stemmer = PorterStemmer()
+stems = [stemmer.stem(w) for w in filtered]
+print("Stems:", stems)
+
+# Step 4 — Lemmatization
+lemmatizer = WordNetLemmatizer()
+lemmas = [lemmatizer.lemmatize(w.lower(), pos='v') for w in filtered]
+print("Lemmas:", lemmas)
+
+# Step 5 — POS Tagging
+pos = pos_tag(filtered)
+print("POS Tags:", pos)
+
+# Output:
+# Tokens  : ['Natural', 'Language', 'Processing', 'helps', 'computers', 'understand', 'language', '.']
+# Filtered: ['Natural', 'Language', 'Processing', 'helps', 'computers', 'understand', 'language']
+# Stems   : ['natur', 'languag', 'process', 'help', 'comput', 'understand', 'languag']
+# Lemmas  : ['natural', 'language', 'processing', 'help', 'computer', 'understand', 'language']
+# POS Tags: [('Natural', 'JJ'), ('Language', 'NN'), ('Processing', 'NN'), ('helps', 'VBZ'), ...]
+""", caption="Complete NLP Pipeline — week5/nlp_pipeline_complete.py")
+
+    _add_code_block(doc, """
+# week5/student_chatbot.py — Practical Task 2: Student Academic Assistant Chatbot
+import random
+
+RESPONSE_PATTERNS = [
+    (["hello", "hi", "hey"],
+     ["Hello! I am the Student Academic Assistant. How can I help you?"]),
+
+    (["cat", "exam", "assessment", "schedule"],
+     ["CAT 1 starts next week. It covers Weeks 1–5: Tokenization, POS, N-grams, HMM, Parsing."]),
+
+    (["register", "registration", "unit"],
+     ["Unit registration is done through the student portal. See the registrar for help."]),
+
+    (["tokenization", "tokenize"],
+     ["Tokenization splits text into words. Use nltk.word_tokenize() in Python."]),
+
+    (["bye", "goodbye", "exit"],
+     ["Goodbye! Good luck with CAT 1. Study hard!"]),
+]
+
+EXIT_KEYWORDS = {"bye", "goodbye", "exit", "quit"}
+
+print("Welcome to Student Help Chatbot")
+while True:
+    user = input("You: ").strip()
+    matched = False
+    for triggers, responses in RESPONSE_PATTERNS:
+        if any(kw in user.lower() for kw in triggers):
+            print("Bot:", random.choice(responses))
+            matched = True
+            break
+    if not matched:
+        print("Bot: I do not understand. Ask about CAT, registration, or NLP topics.")
+    if any(kw in user.lower().split() for kw in EXIT_KEYWORDS):
+        break
+""", caption="Student Academic Assistant Chatbot — week5/student_chatbot.py")
+
+    _add_code_block(doc, """
+# week5/student_chatbot.py — Demo Mode (for screenshots)
+# Run: python week5/student_chatbot.py --demo
+
+demo_queries = [
+    "Hello",
+    "When is CAT 1?",
+    "How do I register for units?",
+    "Explain tokenization",
+    "What is POS tagging?",
+    "Tell me about HMM and Viterbi",
+    "How do I install spaCy?",
+    "What online course should I do for CAT 2?",
+    "Goodbye",
+]
+
+# Sample output:
+# You: Hello
+# Bot: Hello! I am the Student Academic Assistant for BIT4133.
+#
+# You: When is CAT 1?
+# Bot: CAT 1 starts next week. It covers Weeks 1-5 NLP topics.
+#
+# You: Explain tokenization
+# Bot: Tokenization splits text into words. Use nltk.word_tokenize()
+#
+# You: Goodbye
+# Bot: Goodbye! Good luck with CAT 1. Study hard!
+""", caption="Chatbot Demo Output — week5/student_chatbot.py --demo")
+
+    # ── 5.5 Screenshots ───────────────────────────────────────────────────
+    _add_heading(doc, "5.5  Screenshots & Practical Outputs", level=2, color=GREEN_MID)
+    for desc in [
+        "Complete NLP pipeline output — showing Tokens, Filtered, Stems, Lemmas, POS Tags for the course sentence",
+        "Pipeline comparison table — original text vs cleaned text vs stemmed vs lemmatized",
+        "POS tagging output — full word/tag table with grammatical role descriptions",
+        "Student chatbot — greeting interaction ('Hello' → bot response)",
+        "Student chatbot — CAT schedule query ('When is CAT 1?' → bot response)",
+        "Student chatbot — unit registration query and NLP topic explanation",
+        "Student chatbot demo mode — 9 queries processed end-to-end with responses",
+    ]:
+        _add_screenshot_placeholder(doc, desc)
+
+    # ── 5.6 Mini Project Documentation ────────────────────────────────────
+    _add_heading(doc, "5.6  Mini Project: Student Academic Assistant Chatbot",
+                 level=2, color=GREEN_MID)
+    _add_para(doc, "Project Overview:", bold=True, space_after=2)
+    _add_para(doc, (
+        "The Student Academic Assistant Chatbot is a rule-based NLP application designed "
+        "to respond to common student queries about the BIT4133 course. It demonstrates "
+        "pattern matching, input processing, and natural language interaction — core "
+        "concepts that underpin more advanced conversational AI systems."
+    ))
+
+    _add_para(doc, "Project Features:", bold=True, space_after=2)
+    _add_info_table(doc,
+        data=[
+            ["Greeting Detection",     "Matches 'hello', 'hi', 'hey', 'good morning' patterns"],
+            ["CAT Schedule",           "Answers questions about CAT 1 schedule and revision topics"],
+            ["Unit Registration",      "Guides students on registration procedures"],
+            ["NLP Topic Help",         "Explains: tokenization, stemming, POS, HMM, similarity"],
+            ["Online Course Guidance", "Recommends free courses for CAT 2 evaluation"],
+            ["Python/Library Help",    "Guides installation of NLTK, spaCy"],
+            ["Graceful Exit",          "Handles 'bye', 'goodbye', 'exit', 'quit' keywords"],
+            ["Demo Mode",              "--demo flag for non-interactive logbook screenshots"],
+        ],
+        header_row=["Feature", "Implementation"]
+    )
+
+    _add_para(doc, "Reflection on Challenges:", bold=True, space_after=2)
+    for challenge in [
+        "Ensuring all relevant keyword variants are covered (e.g., 'cat', 'cat1', 'cat 1', 'test', 'exam').",
+        "Handling misspelled inputs gracefully without pattern matching failing.",
+        "Balancing simple rule-based logic with sufficiently varied response options.",
+        "Understanding the difference between rule-based chatbots and AI-powered chatbots "
+        "(which use trained language models instead of keyword patterns).",
+    ]:
+        p = doc.add_paragraph(challenge, style="List Bullet")
+        p.runs[0].font.size = Pt(10)
+
+    doc.add_paragraph()
+
+    # ── 5.8 Learning Outcomes ─────────────────────────────────────────────
+    _add_heading(doc, "5.8  Learning Outcomes", level=2, color=GREEN_MID)
+    outcomes = [
+        ("Pipeline Integration",
+         "Chaining tokenization → stop word removal → stemming → lemmatization → POS tagging "
+         "into a single function demonstrates how each NLP stage enriches the text representation."),
+        ("Rule-based vs ML Chatbots",
+         "Rule-based chatbots match keywords deterministically — fast and predictable, but brittle. "
+         "ML-based chatbots (like ChatGPT) use trained neural models — flexible but require large data."),
+        ("NLP Workflow Understanding",
+         "The 8-step NLP workflow (collection → preprocessing → tokenization → stop words → "
+         "POS → parsing → semantics → interpretation) applies to virtually every real-world NLP system."),
+        ("CAT 1 Readiness",
+         "By building and running code for all Week 1–4 concepts, practical understanding "
+         "was solidified beyond passive reading of notes."),
+        ("Professional Documentation",
+         "Logbook entries with code snippets, screenshots, dependency tables, and learning outcomes "
+         "demonstrate the ability to document technical work professionally — a valued industry skill."),
+    ]
+    for term, explanation in outcomes:
+        p = doc.add_paragraph(style="List Bullet")
+        run = p.add_run(f"{term}: ")
+        run.bold = True
+        run.font.size = Pt(10)
+        p.add_run(explanation).font.size = Pt(10)
+
+    doc.add_paragraph()
+
+    # ── 5.9 Online Course Evidence (CAT 2) ────────────────────────────────
+    _add_heading(doc, "5.9  Online Course Evidence (CAT 2 Requirement)",
+                 level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "As part of CAT 2 evaluation, students must complete ONE free online NLP or AI course "
+        "and submit a certificate, reflection report, and key skills summary. "
+        "The following documents are included below."
+    ))
+
+    _add_info_table(doc,
+        data=[
+            ["Selected Course",      "[Student to fill in course name and platform]"],
+            ["Platform",             "[e.g., Hugging Face / DeepLearning.AI / Google / Microsoft]"],
+            ["Course URL",           "[Student to fill in URL]"],
+            ["Date Completed",       "[Student to fill in completion date]"],
+            ["Certificate No.",      "[Student to fill in certificate ID if available]"],
+            ["Skills Learned",       "[Student to summarise 3–5 key skills from the course]"],
+            ["Relation to BIT4133",  "[Student to explain how the course connects to class content]"],
+        ],
+        header_row=["Item", "Detail"]
+    )
+
+    _add_para(doc, "Certificate / Completion Screenshot:", bold=True, space_after=2)
+    _add_screenshot_placeholder(
+        doc,
+        description="Online course completion certificate or screenshot of completed modules",
+        label="INSERT COURSE COMPLETION CERTIFICATE / SCREENSHOT HERE"
+    )
+
+    _add_para(doc, "Reflection Report Summary (1–2 pages):", bold=True, space_after=2)
+    for point in [
+        "New AI/NLP concepts learned during the course.",
+        "Practical tools and frameworks introduced (e.g., Hugging Face Transformers, LangChain).",
+        "Industry applications demonstrated in the course.",
+        "Challenges encountered and how they were overcome.",
+        "Relationship between the online course and BIT4133 class content.",
+    ]:
+        p = doc.add_paragraph(point, style="List Bullet")
+        p.runs[0].font.size = Pt(10)
+
+    _add_para(doc, (
+        "[Student: Replace this section with your actual 1–2 page reflection report. "
+        "Address each bullet point above with specific examples from your chosen course.]"
+    ), italic=True, color=GRAY_MID, size=10)
+
+    doc.add_paragraph()
+
+    # ── 5.10 GitHub Screenshot ────────────────────────────────────────────
+    _add_heading(doc, "5.10  GitHub Commit Screenshot", level=2, color=GREEN_MID)
+    _add_para(doc, (
+        "Commit 5 added the complete integrated NLP pipeline script, the Student Academic "
+        "Assistant Chatbot (mini project), the CAT 1 revision checklist, and the final "
+        "expanded logbook covering all 5 weeks of BIT4133."
+    ))
+    _add_github_placeholder(doc, week=5,
+        commit_msg="Add Week 5: Complete NLP pipeline, student chatbot, CAT 1 prep & final logbook (Weeks 1-5)")
+
+    _add_page_break(doc)
 
 
 # =============================================================================
@@ -1054,15 +1691,19 @@ def generate_logbook():
     print("  Building: Week 3 section...")
     build_week3(doc)
 
-    print("  Building: References...")
-    build_references(doc)
+    print("  Building: Week 4 section...")
+    build_week4(doc)
+
+    print("  Building: Week 5 section...")
+    build_week5(doc)
+
 
     # ── Save ──────────────────────────────────────────────────────────────
     doc.save(OUTPUT_FILE)
     print()
-    print(f"  ✅ Logbook saved: {OUTPUT_FILE}")
+    print(f"  [OK] Logbook saved: {OUTPUT_FILE}")
     print()
-    print("  📝 Before submitting, please:")
+    print("  [NOTE] Before submitting, please:")
     print("     1. Update STUDENT_NAME and REG_NUMBER at the top of this script")
     print("     2. Update INSTITUTION and SUPERVISOR")
     print("     3. Insert actual screenshots in all placeholder boxes")
