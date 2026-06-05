@@ -11,7 +11,7 @@
 
 Smart Farm is an AI-powered chatbot that helps farmers diagnose crop problems and receive
 solutions by typing or speaking their farming issue. The chatbot applies a full NLP pipeline
-covering all concepts taught in Weeks 1–3 of BIT4133.
+covering all concepts taught in Weeks 1–5 of BIT4133.
 
 ---
 
@@ -22,6 +22,8 @@ covering all concepts taught in Weeks 1–3 of BIT4133.
 | Week 1 | Tokenization, Stop Words Removal, Stemming, Lemmatization | `week1/nlp_pipeline.py` |
 | Week 2 | N-gram Language Models, POS Tagging | `week2/ngram_model.py`, `week2/pos_tagger.py` |
 | Week 3 | Hidden Markov Models, Sequence Labeling, Entity Extraction | `week3/hmm_entity.py` |
+| Week 4 | Dependency Parsing, Semantic Similarity | `week4/dependency_parser.py` |
+| Week 5 | Complete NLP Pipeline, Rule-based Chatbot | `week5/nlp_pipeline_complete.py`, `week5/student_chatbot.py` |
 
 ---
 
@@ -41,8 +43,13 @@ smart_farm/
 │   ├── hmm_entity.py        # HMM-based entity sequence labeling
 │   ├── chatbot.py           # Full CLI chatbot (main entry point)
 │   └── speech_input.py      # Speech-to-text input module
+├── week4/
+│   └── dependency_parser.py # spaCy dependency parsing & semantic similarity
+├── week5/
+│   ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
+│   └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
 └── logbook/
-    ├── generate_logbook.py  # Generates the .docx logbook
+    ├── generate_logbook.py  # Generates the .docx logbook (Weeks 1-5)
     └── Smart_Farm_Logbook.docx
 ```
 
@@ -64,10 +71,17 @@ python week1/nlp_pipeline.py
 python week2/ngram_model.py
 python week2/pos_tagger.py
 
-# 5. Launch the full chatbot
+# 5. Run Week 4 spaCy demo (requires: pip install spacy && python -m spacy download en_core_web_sm)
+python week4/dependency_parser.py
+
+# 6. Run Week 5 complete pipeline and chatbot
+python week5/nlp_pipeline_complete.py
+python week5/student_chatbot.py --demo
+
+# 7. Launch the full chatbot
 python week3/chatbot.py
 
-# 6. Generate the logbook
+# 8. Generate the logbook (Weeks 1-5)
 python logbook/generate_logbook.py
 ```
 
@@ -98,10 +112,12 @@ Farmer: My maize leaves are turning yellow
 ## GitHub Commits
 
 | Commit | Week | Description |
-|--------|------|-------------|
+|--------|------|--------------|
 | Commit 1 | Week 1 | Environment setup, NLTK basics, knowledge base |
 | Commit 2 | Week 2 | N-gram model, POS tagging, noun/verb extraction |
 | Commit 3 | Week 3 | HMM entity labeling, full chatbot, speech input |
+| Commit 4 | Week 4 | spaCy dependency parsing, semantic similarity, assignments |
+| Commit 5 | Week 5 | Complete NLP pipeline, student chatbot mini project, logbook (Weeks 1-5) |
 
 ---
 
