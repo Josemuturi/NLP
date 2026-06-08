@@ -45,12 +45,9 @@ smart_farm/
 │   └── speech_input.py      # Speech-to-text input module
 ├── week4/
 │   └── dependency_parser.py # spaCy dependency parsing & semantic similarity
-├── week5/
-│   ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
-│   └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
-└── logbook/
-    ├── generate_logbook.py  # Generates the .docx logbook (Weeks 1-5)
-    └── Smart_Farm_Logbook.docx
+└── week5/
+    ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
+    └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
 ```
 
 ---
@@ -80,9 +77,6 @@ python week5/student_chatbot.py --demo
 
 # 7. Launch the full chatbot
 python week3/chatbot.py
-
-# 8. Generate the logbook (Weeks 1-5)
-python logbook/generate_logbook.py
 ```
 
 ---
