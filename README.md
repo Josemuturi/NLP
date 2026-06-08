@@ -1,4 +1,4 @@
-# 🌾 Smart Farm — AI Chatbot for Farmers
+#  Smart Farm — AI Chatbot for Farmers
 
 **Course**: BIT4133 Natural Language Processing  
 **Project**: Smart Farm AI Assistant  
@@ -90,7 +90,7 @@ python logbook/generate_logbook.py
 ## Example Interaction
 
 ```
-🌾 Smart Farm AI Assistant
+ Smart Farm AI Assistant
 =====================================
 Farmer: My maize leaves are turning yellow
 
@@ -102,7 +102,7 @@ Farmer: My maize leaves are turning yellow
 ✔ POS Tags    : [('maize', 'NN'), ('leaves', 'NNS'), ('turning', 'VBG'), ('yellow', 'JJ')]
 ✔ Entities    : crop=maize | symptom=yellow leaves
 
-💡 Solution:
+ Solution:
    Yellow leaves in maize are often caused by nitrogen deficiency or maize streak virus.
    Apply urea fertilizer at 46% N rate. If viral, remove infected plants.
 ```
