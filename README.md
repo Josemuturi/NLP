@@ -11,7 +11,7 @@
 
 Smart Farm is an AI-powered chatbot that helps farmers diagnose crop problems and receive
 solutions by typing or speaking their farming issue. The chatbot applies a full NLP pipeline
-covering all concepts taught in Weeks 1–5 of BIT4133.
+covering all concepts taught in Weeks 1–6 of BIT4133.
 
 ---
 
@@ -24,6 +24,7 @@ covering all concepts taught in Weeks 1–5 of BIT4133.
 | Week 3 | Hidden Markov Models, Sequence Labeling, Entity Extraction | `week3/hmm_entity.py` |
 | Week 4 | Dependency Parsing, Semantic Similarity | `week4/dependency_parser.py` |
 | Week 5 | Complete NLP Pipeline, Rule-based Chatbot | `week5/nlp_pipeline_complete.py`, `week5/student_chatbot.py` |
+| Week 6 | Word Embeddings (CBOW, Skip-Gram), PCA/t-SNE Visualization | `week6/train_word2vec.py`, `week6/visualize_embeddings.py` |
 
 ---
 
@@ -45,9 +46,12 @@ smart_farm/
 │   └── speech_input.py      # Speech-to-text input module
 ├── week4/
 │   └── dependency_parser.py # spaCy dependency parsing & semantic similarity
-└── week5/
-    ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
-    └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
+├── week5/
+│   ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
+│   └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
+└── week6/
+    ├── train_word2vec.py    # Word2Vec CBOW & Skip-Gram training
+    └── visualize_embeddings.py  # PCA/t-SNE 2D projection plots
 ```
 
 ---
@@ -77,6 +81,10 @@ python week5/student_chatbot.py --demo
 
 # 7. Launch the full chatbot
 python week3/chatbot.py
+
+# 8. Run Week 6 Word2Vec training & visualization
+python week6/train_word2vec.py
+python week6/visualize_embeddings.py
 ```
 
 ---
@@ -93,7 +101,7 @@ Farmer: My maize leaves are turning yellow
 ✔ Filtered    : ['maize', 'leaves', 'turning', 'yellow']
 ✔ Stems       : ['maiz', 'leav', 'turn', 'yellow']
 ✔ Lemmas      : ['maize', 'leaf', 'turn', 'yellow']
-✔ POS Tags    : [('maize', 'NN'), ('leaves', 'NNS'), ('turning', 'VBG'), ('yellow', 'JJ')]
+✔ Valid Tags  : [('maize', 'NN'), ('leaves', 'NNS'), ('turning', 'VBG'), ('yellow', 'JJ')]
 ✔ Entities    : crop=maize | symptom=yellow leaves
 
  Solution:
@@ -108,10 +116,11 @@ Farmer: My maize leaves are turning yellow
 | Commit | Week | Description |
 |--------|------|--------------|
 | Commit 1 | Week 1 | Environment setup, NLTK basics, knowledge base |
-| Commit 2 | Week 2 | N-gram model, POS tagging, noun/verb extraction |
+| Commit 2 | Week 2 | N-gram model, POS tagging, noun/verb extraction, farming role classifier |
 | Commit 3 | Week 3 | HMM entity labeling, full chatbot, speech input |
 | Commit 4 | Week 4 | spaCy dependency parsing, semantic similarity, assignments |
 | Commit 5 | Week 5 | Complete NLP pipeline, student chatbot mini project, logbook (Weeks 1-5) |
+| Commit 6 | Week 6 | Word2Vec CBOW & Skip-Gram training, PCA/t-SNE embedding visualization |
 
 ---
 
