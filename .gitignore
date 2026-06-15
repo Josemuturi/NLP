@@ -21,4 +21,8 @@ Thumbs.db
 
 # Generated model / data files
 *.model
+*.keras
+*.h5
 *.png
+*.json
+!package.json

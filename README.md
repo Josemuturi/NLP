@@ -11,7 +11,7 @@
 
 Smart Farm is an AI-powered chatbot that helps farmers diagnose crop problems and receive
 solutions by typing or speaking their farming issue. The chatbot applies a full NLP pipeline
-covering all concepts taught in Weeks 1–6 of BIT4133.
+covering all concepts taught in Weeks 1–7 of BIT4133.
 
 ---
 
@@ -25,6 +25,7 @@ covering all concepts taught in Weeks 1–6 of BIT4133.
 | Week 4 | Dependency Parsing, Semantic Similarity | `week4/dependency_parser.py` |
 | Week 5 | Complete NLP Pipeline, Rule-based Chatbot | `week5/nlp_pipeline_complete.py`, `week5/student_chatbot.py` |
 | Week 6 | Word Embeddings (CBOW, Skip-Gram), PCA/t-SNE Visualization | `week6/train_word2vec.py`, `week6/visualize_embeddings.py` |
+| Week 7 | Neural Language Models, TensorFlow Next-Word Prediction | `week7/train_neural_lm.py`, `week7/predict_text.py`, `week7/tf_nlp_exercise.py` |
 
 ---
 
@@ -49,9 +50,13 @@ smart_farm/
 ├── week5/
 │   ├── nlp_pipeline_complete.py  # Integrated NLP pipeline (all weeks)
 │   └── student_chatbot.py   # Student Academic Assistant Chatbot (mini project)
-└── week6/
-    ├── train_word2vec.py    # Word2Vec CBOW & Skip-Gram training
-    └── visualize_embeddings.py  # PCA/t-SNE 2D projection plots
+├── week6/
+│   ├── train_word2vec.py    # Word2Vec CBOW & Skip-Gram training
+│   └── visualize_embeddings.py  # PCA/t-SNE 2D projection plots
+└── week7/
+    ├── train_neural_lm.py   # TensorFlow neural language model training
+    ├── predict_text.py      # CLI next-word predictor
+    └── tf_nlp_exercise.py   # Keras tokenization & sequence demo
 ```
 
 ---
@@ -85,6 +90,11 @@ python week3/chatbot.py
 # 8. Run Week 6 Word2Vec training & visualization
 python week6/train_word2vec.py
 python week6/visualize_embeddings.py
+
+# 9. Run Week 7 Neural Language Model training & prediction
+python week7/train_neural_lm.py
+python week7/predict_text.py "the farmer crops"
+python week7/tf_nlp_exercise.py
 ```
 
 ---
@@ -101,7 +111,7 @@ Farmer: My maize leaves are turning yellow
 ✔ Filtered    : ['maize', 'leaves', 'turning', 'yellow']
 ✔ Stems       : ['maiz', 'leav', 'turn', 'yellow']
 ✔ Lemmas      : ['maize', 'leaf', 'turn', 'yellow']
-✔ Valid Tags  : [('maize', 'NN'), ('leaves', 'NNS'), ('turning', 'VBG'), ('yellow', 'JJ')]
+✔ POS Tags    : [('maize', 'NN'), ('leaves', 'NNS'), ('turning', 'VBG'), ('yellow', 'JJ')]
 ✔ Entities    : crop=maize | symptom=yellow leaves
 
  Solution:
@@ -121,6 +131,7 @@ Farmer: My maize leaves are turning yellow
 | Commit 4 | Week 4 | spaCy dependency parsing, semantic similarity, assignments |
 | Commit 5 | Week 5 | Complete NLP pipeline, student chatbot mini project, logbook (Weeks 1-5) |
 | Commit 6 | Week 6 | Word2Vec CBOW & Skip-Gram training, PCA/t-SNE embedding visualization |
+| Commit 7 | Week 7 | TensorFlow neural language model, next-word prediction, tokenization exercise |
 
 ---
 
